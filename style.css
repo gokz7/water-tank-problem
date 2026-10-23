@@ -1,0 +1,167 @@
+/*
+  ============================================================================
+  style.css - THE LOOK AND FEEL
+  ============================================================================
+
+  What this file does:
+    It controls colours, spacing and layout. It has no logic.
+
+  Key choices:
+    - Block colour (yellow) and water colour (blue) match the brief.
+    - One centred column, so it reads well on laptops and phones.
+  ============================================================================
+*/
+
+
+/* ----------------------------------------------------------------------------
+   SECTION 1: COLOUR SETTINGS
+   All colours are named here once, then reused below with var(--name).
+   To change a colour everywhere, change it only here.
+---------------------------------------------------------------------------- */
+:root {
+  --bg: #f4f6f8;            /* page background */
+  --card: #ffffff;          /* card background */
+  --text: #1c2430;          /* main text colour */
+  --muted: #5f6b7a;         /* lighter text */
+  --border: #d5dbe2;        /* card borders */
+  --grid: #222222;          /* grid lines in the charts */
+  --block: #ffff00;         /* yellow block, as in the brief */
+  --water: #00b0f0;         /* blue water, as in the brief */
+  --accent: #0b6bcb;        /* button colour */
+  --error: #c62828;         /* error text */
+}
+
+
+/* ----------------------------------------------------------------------------
+   SECTION 2: PAGE BASICS
+   - box-sizing makes widths include padding and borders (easier sizing).
+   - body sets the font, background and text colour for the whole page.
+   - .page keeps the content in a centred column, max 900px wide.
+---------------------------------------------------------------------------- */
+* { box-sizing: border-box; }                       /* widths include padding and border */
+
+body {
+  margin: 0;                                        /* remove the browser's default gap */
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  line-height: 1.5;                                 /* comfortable line spacing */
+}
+
+.page { max-width: 900px; margin: 0 auto; padding: 24px 16px 48px; } /* centred column */
+
+
+/* ----------------------------------------------------------------------------
+   SECTION 3: HEADINGS AND CARDS
+   Sizes for the titles, and the white rounded boxes that hold each section.
+---------------------------------------------------------------------------- */
+h1 { margin: 0 0 4px; font-size: 1.9rem; }          /* main page title */
+h2 { margin: 0 0 8px; font-size: 1.15rem; }         /* chart titles */
+.subtitle { margin: 0 0 20px; color: var(--muted); }
+
+.card {                                             /* white box around each section */
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;                              /* rounded corners */
+  padding: 18px;
+  margin-bottom: 16px;                              /* gap between cards */
+}
+
+
+/* ----------------------------------------------------------------------------
+   SECTION 4: INPUT AREA
+   The label, the text box and the Calculate button sitting side by side.
+---------------------------------------------------------------------------- */
+label { display: block; font-weight: 600; margin-bottom: 6px; }
+
+.input-row { display: flex; gap: 8px; }            /* text box and button side by side */
+.input-row input {
+  flex: 1;                                          /* text box takes the spare space */
+  min-width: 0;                                     /* lets it shrink on small screens */
+  padding: 10px 12px;
+  font-size: 1rem;
+  font-family: ui-monospace, Consolas, monospace;   /* fixed-width font for numbers */
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+
+/* ----------------------------------------------------------------------------
+   SECTION 5: BUTTONS
+   - All buttons: white with a thin border.
+   - Hover: border turns blue so the user sees it is clickable.
+   - .primary (Calculate): solid blue so it stands out as the main action.
+---------------------------------------------------------------------------- */
+button {
+  padding: 8px 12px;
+  font-size: 0.95rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--text);
+  cursor: pointer;                                  /* hand cursor on hover */
+}
+button:hover { border-color: var(--accent); }
+button.primary { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 600; }
+
+
+/* ----------------------------------------------------------------------------
+   SECTION 6: HINT, EXAMPLES AND ERROR TEXT
+   - .hint: small grey help text under the input.
+   - .examples: the row of example buttons; wraps onto new lines on phones.
+   - .error: red, bold message when the input is wrong.
+   - code: grey box for showing numbers like [0,4,0].
+---------------------------------------------------------------------------- */
+.hint { margin: 8px 0; font-size: 0.9rem; color: var(--muted); }
+.examples { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; } /* wraps on small screens */
+.examples span { color: var(--muted); font-size: 0.9rem; }
+.error { color: var(--error); margin: 10px 0 0; font-weight: 600; min-height: 1em; }
+
+code { font-family: ui-monospace, Consolas, monospace; background: #eef1f5; padding: 1px 5px; border-radius: 4px; word-break: break-all; }
+
+
+/* ----------------------------------------------------------------------------
+   SECTION 7: RESULT CARD
+   Makes the total ("Output: 18 Units") big, with the number in blue.
+---------------------------------------------------------------------------- */
+.result p { margin: 4px 0; }
+.total { font-size: 1.6rem; }                       /* big total line */
+.total strong { color: var(--water); }              /* number in water blue */
+
+
+/* ----------------------------------------------------------------------------
+   SECTION 8: CHART LEGEND
+   The small coloured squares that explain "Block" and "Water".
+---------------------------------------------------------------------------- */
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 0.9rem; margin-bottom: 10px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.muted { color: var(--muted); }
+.swatch { width: 14px; height: 14px; border: 1px solid var(--grid); display: inline-block; }
+.swatch.block { background: var(--block); }         /* yellow square */
+.swatch.water { background: var(--water); }         /* blue square */
+
+
+/* ----------------------------------------------------------------------------
+   SECTION 9: SVG GRID CELLS
+   app.js gives each square one of three classes, and these rules colour them:
+     .cell-empty -> white (air)
+     .cell-block -> yellow (block)
+     .cell-water -> blue (water)
+   Every cell gets a dark outline so the grid looks like the brief's table.
+   The SVG itself stretches to the card width and keeps its shape.
+---------------------------------------------------------------------------- */
+.chart svg { width: 100%; height: auto; display: block; }   /* SVG shrinks to fit the screen */
+.cell-empty { fill: #ffffff; stroke: var(--grid); stroke-width: 1; }
+.cell-block { fill: var(--block); stroke: var(--grid); stroke-width: 1; }
+.cell-water { fill: var(--water); stroke: var(--grid); stroke-width: 1; }
+.col-label { font-size: 14px; text-anchor: middle; fill: var(--muted); font-family: system-ui, Arial, sans-serif; } /* numbers under columns */
+
+
+/* ----------------------------------------------------------------------------
+   SECTION 10: PHONE SCREENS
+   On screens narrower than 520px, the text box and the Calculate button
+   stack on top of each other instead of sitting side by side.
+---------------------------------------------------------------------------- */
+@media (max-width: 520px) {                          /* phones: stack input and button */
+  .input-row { flex-direction: column; }
+}

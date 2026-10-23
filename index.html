@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<!--
+  ============================================================================
+  index.html - THE PAGE LAYOUT
+  ============================================================================
+
+  What this file does:
+    It holds the structure of the page. It does not calculate or draw.
+      - Logic   lives in water.js
+      - Drawing lives in app.js
+      - Styling lives in style.css
+
+  The page has 4 parts, top to bottom:
+    1. Header       -> title and a one-line description
+    2. Input form   -> text box, Calculate button, example buttons, error line
+    3. Result card  -> input echo, total units, water per column
+    4. Two charts   -> "Blocks and water" and "Water only" (SVG goes here)
+  ============================================================================
+-->
+<html lang="en">
+
+<!--
+  HEAD SECTION
+  Page settings that the user does not see directly:
+    - charset UTF-8 -> shows all characters correctly
+    - viewport      -> makes the page fit phone screens
+    - title         -> text on the browser tab
+    - stylesheet    -> loads our colours and layout from style.css
+-->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Water Tank Problem</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <main class="page">
+
+    <!--
+      PART 1: HEADER
+      The page title and a short line telling the user what the app does.
+    -->
+    <header>
+      <h1>Water Tank Problem</h1>
+      <p class="subtitle">Enter block heights (whole numbers, 0 or more). The app finds how many units of water stay trapped between the blocks.</p>
+    </header>
+
+    <!--
+      PART 2: INPUT FORM
+      Where the user types the block heights.
+        - The text box starts with the brief's example already filled in.
+        - Pressing "Calculate" or Enter runs the calculation (handled in app.js).
+        - Each example button keeps its own input in "data-example".
+        - The "error" line shows a message if the input is wrong.
+          role="alert" makes screen readers read the error out loud.
+    -->
+    <form id="input-form" class="card">
+      <label for="heights-input">Block heights</label>
+      <div class="input-row">
+        <input id="heights-input" type="text" value="[0,4,0,0,0,6,0,6,4,0]" autocomplete="off" spellcheck="false">
+        <button type="submit" class="primary">Calculate</button>
+      </div>
+      <p class="hint">Use commas or spaces, e.g. <code>[0,4,0,0,0,6,0,6,4,0]</code> or <code>3 0 2 0 4</code></p>
+      <div class="examples">
+        <span>Try:</span>
+        <button type="button" data-example="[0,4,0,0,0,6,0,6,4,0]">Brief example</button>
+        <button type="button" data-example="[0,1,0,2,1,0,1,3,2,1,2,1]">Uneven floor</button>
+        <button type="button" data-example="[4,2,0,3,2,5]">Deep valley</button>
+        <button type="button" data-example="[1,2,3,4,5]">No water</button>
+        <button type="button" id="random-btn">Random</button>
+      </div>
+      <p id="error" class="error" role="alert"></p>
+    </form>
+
+    <!--
+      PARTS 3 AND 4: RESULTS
+      Hidden at first ("hidden"). app.js shows it after a valid calculation.
+    -->
+    <section id="output" hidden>
+
+      <!--
+        PART 3: RESULT CARD
+        Shows the input back to the user, the total water,
+        and the water above each column. app.js fills in the empty spots.
+      -->
+      <div class="card result">
+        <p class="result-line">Input: <code id="echo-input"></code></p>
+        <p class="total">Output: <strong id="total">0</strong> <span id="unit-word">Units</span></p>
+        <p class="result-line">Water above each column: <code id="per-column"></code></p>
+      </div>
+
+      <!--
+        PART 4a: CHART 1 - BLOCKS AND WATER
+        Matches the first table in the brief: yellow blocks and blue water.
+        The legend explains the colours. app.js puts the SVG inside "chart-blocks".
+      -->
+      <div class="card">
+        <h2>Blocks and water</h2>
+        <div class="legend">
+          <span><i class="swatch block"></i>Block</span>
+          <span><i class="swatch water"></i>Water</span>
+          <span class="muted">Numbers below = block height</span>
+        </div>
+        <div id="chart-blocks" class="chart"></div>
+      </div>
+
+      <!--
+        PART 4b: CHART 2 - WATER ONLY
+        Matches the second table in the brief: only the trapped water.
+        app.js puts the SVG inside "chart-water".
+      -->
+      <div class="card">
+        <h2>Water only</h2>
+        <div class="legend">
+          <span><i class="swatch water"></i>Water</span>
+          <span class="muted">Numbers below = water units in that column</span>
+        </div>
+        <div id="chart-water" class="chart"></div>
+      </div>
+    </section>
+  </main>
+
+  <!--
+    SCRIPTS
+    Loaded at the end so the page content exists before the code runs.
+    Order matters: water.js first (the logic), then app.js (which uses it).
+  -->
+  <script src="water.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
