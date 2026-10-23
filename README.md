@@ -1,5 +1,7 @@
 # Water Tank Problem
 
+**Live demo:** https://gokz7.github.io/water-tank-problem/
+
 A small web app built with **Vanilla JavaScript, HTML and CSS** (no frameworks, no libraries) for the Ever Quint interview assignment.
 
 Given a list of block heights (each height `n > -1`, so whole numbers 0 or more), it works out how many **units of water** stay trapped between the blocks and draws the answer as an **SVG grid**.
